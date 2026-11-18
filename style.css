@@ -1,0 +1,54 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+  background: #000;
+  color: #f2f2f5;
+  font-family: system-ui, sans-serif;
+}
+
+main { width: 100%; max-width: 520px; }
+h1 { margin-bottom: 20px; }
+
+form { display: flex; gap: 8px; margin-bottom: 20px; }
+
+input[type="text"] {
+  flex: 1;
+  padding: 12px 14px;
+  background: #0f0f12;
+  border: 1px solid #26262e;
+  border-radius: 10px;
+  color: inherit;
+  font-size: 1rem;
+}
+input[type="text"]:focus { outline: 2px solid #8b7cff; }
+
+button {
+  padding: 8px 14px;
+  background: #17171c;
+  border: 1px solid #26262e;
+  border-radius: 10px;
+  color: #f2f2f5;
+  cursor: pointer;
+}
+button:hover { border-color: #8b7cff; }
+form button { background: #8b7cff; color: #000; font-weight: 600; }
+
+ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+ul:empty::before { content: "No tasks yet. Add one above."; color: #8b8b97; }
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #0f0f12;
+  border: 1px solid #26262e;
+  border-radius: 10px;
+}
+li span { flex: 2; word-break: break-word; }
+li.done span { color: #8b8b97; text-decoration: line-through; }
+li input { accent-color: #8b7cff; width: 18px; height: 18px; }
