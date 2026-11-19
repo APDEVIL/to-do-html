@@ -166,7 +166,7 @@ li button:hover { background: var(--red); color: #fff; border-color: var(--ink);
 #blob .body {
   width: 100%;
   height: 100%;
-  background: var(--red);
+  background: var(--blob, var(--red));
   border: 2.5px solid var(--ink);
   border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
   box-shadow: 0 0 0 4px #fff, 0 0 0 6px var(--ink);
@@ -177,3 +177,36 @@ li button:hover { background: var(--red); color: #fff; border-color: var(--ink);
 @keyframes wobble { 50% { border-radius: 40% 60% 45% 55% / 60% 40% 60% 40%; } }
 
 @media (max-width: 480px) { h1 { font-size: 1.8rem; } .foot span { display: none; } }
+
+/* Avatar sticker is now a button */
+.sticker { cursor: pointer; transition: transform 0.2s; }
+.sticker:hover { transform: rotate(6deg) scale(1.06); }
+
+/* Search + starred tasks */
+.filters input[type="text"] { flex: 0 1 130px; margin-left: auto; padding: 2px 6px; font-size: 1rem; }
+li.starred { border-color: var(--red); }
+li button.star { padding: 0 2px; border: 0; font-size: 1.3rem; line-height: 1; opacity: 1; }
+li button.star:hover { background: none; color: var(--red); }
+
+/* Profile pop-up */
+dialog {
+  margin: auto;
+  width: min(92vw, 380px);
+  padding: 28px 22px 20px;
+  background: #fffdf6;
+  color: var(--ink);
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 0 0 0 5px #fff, 0 0 0 7px var(--ink), 8px 12px 0 7px rgba(0, 0, 0, 0.15);
+}
+dialog::backdrop { background: rgba(26, 26, 26, 0.45); }
+dialog h2 { margin-bottom: 14px; font-family: "Baloo 2", sans-serif; }
+dialog p { margin: 16px 0 8px; color: var(--muted); }
+dialog input[type="text"] { width: 100%; }
+.picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick { width: 40px; height: 40px; display: grid; place-items: center; background: #fff; border: 2px solid var(--ink); border-radius: 50%; font-size: 1.4rem; }
+.pick.on { transform: scale(1.12); box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--ink); }
+.stats { margin: 18px 0; padding: 8px 12px; background: var(--paper); border: 2px dashed var(--ink); border-radius: 10px; text-align: center; }
+.row { display: flex; justify-content: flex-end; gap: 10px; }
+.row button { padding: 6px 18px; background: #fff; border: 2px solid var(--ink); border-radius: 999px; font-family: "Baloo 2", sans-serif; }
+.row #psave { background: var(--ink); color: #fff; }

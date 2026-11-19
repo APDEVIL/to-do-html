@@ -13,12 +13,12 @@
   <div id="blob"><div class="body"></div><div class="eyes"><i></i><i></i></div></div>
 
   <main>
-    <div class="sticker">✏️</div>
-    <h1>What needs doing today?</h1>
-    <p class="sub">Add a task and tick it off when you're done.</p>
+    <button class="sticker" id="avatar" title="Open profile">✏️</button>
+    <h1 id="title">What needs doing today?</h1>
+    <p class="sub" id="sub">Add a task and tick it off when you're done.</p>
 
     <section class="notebook">
-      <span class="tab">my notebook</span>
+      <span class="tab" id="tab">my notebook</span>
 
       <form id="form" autocomplete="off">
         <input id="input" type="text" placeholder="send invoice to Lumen" />
@@ -29,6 +29,7 @@
         <button class="on" data-filter="all">all</button>
         <button data-filter="active">to do</button>
         <button data-filter="done">done</button>
+        <input id="search" type="text" placeholder="search..." />
       </nav>
       <div class="progress"><div id="bar"></div></div>
 
@@ -41,7 +42,23 @@
     </section>
   </main>
 
+  <!-- Profile pop-up -->
+  <dialog id="profile">
+    <h2>my profile</h2>
+    <input id="pname" type="text" maxlength="16" placeholder="your name" />
+    <p>pick a face</p>
+    <div class="picks" id="faces"></div>
+    <p>blob colour</p>
+    <div class="picks" id="colors"></div>
+    <div class="stats" id="stats"></div>
+    <div class="row">
+      <button id="pcancel">close</button>
+      <button id="psave">save</button>
+    </div>
+  </dialog>
+
   <script src="script.js"></script>
+  <script src="profile.js"></script>
   <script src="blob.js"></script>
 </body>
 </html>
