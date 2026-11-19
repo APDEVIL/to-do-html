@@ -1,49 +1,47 @@
-const form = document.getElementById("form");
-const input = document.getElementById("input");
-const list = document.getElementById("list");
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-
-function save() {
+const $ = id => document.getElementById(id);
+const el = (tag, text = "", cls = "") => { const e = document.createElement(tag); e.textContent = text; e.className = cls; return e; };
+const tabs = document.querySelectorAll(".filters button");
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [], filter = "all";
+function save() {                                   // store, then redraw
   localStorage.setItem("tasks", JSON.stringify(tasks));
   render();
 }
-
-
-function render() {
-  list.innerHTML = "";
+function render() {                                 // READ (respects the filter)
+  const done = tasks.filter(t => t.done).length;
+  $("clear").textContent = `clear done (${done})`;
+  $("bar").style.width = tasks.length ? (done / tasks.length) * 100 + "%" : "0%";
+  $("list").innerHTML = "";
   tasks.forEach((task, i) => {
-    const li = document.createElement("li");
-    if (task.done) li.className = "done";
-
-    const check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = task.done;
-    check.onchange = () => { task.done = !task.done; save(); };   
-
-    const text = document.createElement("span");
-    text.textContent = task.text;
-    const edit = document.createElement("button");
-    edit.textContent = "Edit";
-    edit.onclick = () => {                                      
-      const newText = prompt("Edit task:", task.text);
-      if (newText && newText.trim()) { task.text = newText.trim(); save(); }
+    if ((filter === "active" && task.done) || (filter === "done" && !task.done)) return;
+    const li = el("li", "", task.done ? "done" : "");
+    const check = Object.assign(el("input"), { type: "checkbox", checked: task.done });
+    check.onchange = () => { task.done = !task.done; save(); };   // UPDATE (status)
+    const edit = el("button", "edit");
+    edit.onclick = () => {                                        // UPDATE (text)
+      const t = prompt("Edit task:", task.text);
+      if (t && t.trim()) { task.text = t.trim(); save(); }
     };
-
-    const del = document.createElement("button");
-    del.textContent = "Delete";
-    del.onclick = () => { tasks.splice(i, 1); save(); };          
-
-    li.append(check, text, edit, del);
-    list.appendChild(li);
+    const del = el("button", "delete");
+    del.onclick = () => { tasks.splice(i, 1); save(); };          // DELETE
+    li.append(check, el("span", task.text), edit, del);
+    $("list").appendChild(li);
   });
 }
-// CREATE: add a new task
-form.onsubmit = e => {
+$("form").onsubmit = e => {                         // CREATE
   e.preventDefault();
-  if (!input.value.trim()) return;
-  tasks.unshift({ text: input.value.trim(), done: false });
-  input.value = "";
+  const text = $("input").value.trim();
+  if (!text) return;
+  tasks.unshift({ text, done: false });
+  $("input").value = "";
   save();
 };
+tabs.forEach(b => b.onclick = () => {               // filter tabs
+  filter = b.dataset.filter;
+  tabs.forEach(x => x.classList.toggle("on", x === b));
+  render();
+});
+$("clear").onclick = () => { tasks = tasks.filter(t => !t.done); save(); };   // clear finished
+addEventListener("keydown", e => {                  // "/" focuses the input
+  if (e.key === "/" && document.activeElement !== $("input")) { e.preventDefault(); $("input").focus(); }
+});
 render();
